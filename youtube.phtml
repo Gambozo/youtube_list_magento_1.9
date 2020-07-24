@@ -1,0 +1,46 @@
+<script src="//www.youtube.com/player_api"></script>
+<?php
+//Get videos from channel by YouTube Data API
+
+$API_key    = 'YOUR_API_KEY';
+$channelID  = 'YOUR_CHANNEL_ID';
+$maxResults = 50;
+$videoList = json_decode(file_get_contents('https://www.googleapis.com/youtube/v3/search?order=date&type=video&part=snippet&channelId='.$channelID.'&maxResults='.$maxResults.'&key='.$API_key.''));
+echo '<div id="iutubi" class="row">';
+foreach($videoList->items as $item){
+    if(isset($item->id->videoId)){
+		echo '<div class="col-md-4 videoyt">
+				<a class="various fancybox.iframe" href="https://www.youtube.com/embed/'.$item->id->videoId.'?enablejsapi=1&wmode=opaque" title="'. $item->snippet->title .'">
+					<img class="img-responsive" style="width:350px" src="'.$item->snippet->thumbnails->medium->url.'" />
+					<h2 class="yttitle">'. $item->snippet->title .'</h2>
+				</a>
+			</div>';
+    }
+}
+echo '</div>';
+?>
+<script>
+	function onPlayerReady(event) {
+		event.target.playVideo();
+	}
+	function onYouTubePlayerAPIReady() {
+		jQuery(function ($) {
+			$(".various")
+				.fancybox({
+					padding     : 0,
+					margin      : 50,
+					beforeShow  : function() {
+						// Find the iframe ID
+						var id = $.fancybox.inner.find('iframe').attr('id');
+						
+						// Create video player object and add event listeners
+						var player = new YT.Player(id, {
+							events: {
+								'onReady': onPlayerReady,
+							}
+						});
+					}
+				});
+		});
+	}
+</script>
