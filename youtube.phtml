@@ -20,27 +20,28 @@ foreach($videoList->items as $item){
 echo '</div>';
 ?>
 <script>
-	function onPlayerReady(event) {
-		event.target.playVideo();
-	}
-	function onYouTubePlayerAPIReady() {
-		jQuery(function ($) {
-			$(".various")
-				.fancybox({
-					padding     : 0,
-					margin      : 50,
-					beforeShow  : function() {
-						// Find the iframe ID
-						var id = $.fancybox.inner.find('iframe').attr('id');
-						
-						// Create video player object and add event listeners
-						var player = new YT.Player(id, {
-							events: {
-								'onReady': onPlayerReady,
-							}
-						});
-					}
-				});
-		});
-	}
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+function onYouTubePlayerAPIReady() {
+    jQuery(function ($) {
+        $(".various")
+            .fancybox({
+                padding: 0,
+                margin: 50,
+                beforeShow: function () {
+                    // Find the iframe ID
+                    var id = $.fancybox.inner.find('iframe').attr('id');
+
+                    // Create video player object and add event listeners
+                    var player = new YT.Player(id, {
+                        events: {
+                            'onReady': onPlayerReady,
+                        }
+                    });
+                }
+            });
+    });
+}
 </script>
